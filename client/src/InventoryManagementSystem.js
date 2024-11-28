@@ -200,7 +200,7 @@ const InventoryManagementSystem = () => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '20px auto', padding: '20px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Inventory Management System</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Homeless Shelter Inventory Management System</h1>
       
       {message && (
         <div style={{ 
