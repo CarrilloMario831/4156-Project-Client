@@ -1,107 +1,124 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
-  const baseUrl = 'http://team-project-service-demo.ue.r.appspot.com/api';
+  const baseUrl = "https://team-project-service-demo.ue.r.appspot.com/api";
 
   const username = "admin1";
   const password = "admin123";
   const token = btoa(`${username}:${password}`);
-  axios.defaults.headers.common['Authorization'] = `Basic ${token}`;
+  axios.defaults.headers.common["Authorization"] = `Basic ${token}`;
 
   const renderResponse = (res) => {
-    if (res && typeof res === 'object') {
+    if (res && typeof res === "object") {
       return JSON.stringify(res, null, 2);
     }
     return res;
   };
 
   // Inventories
-  const [createInventoryName, setCreateInventoryName] = useState('');
-  const [createInventoryResponse, setCreateInventoryResponse] = useState('');
+  const [createInventoryName, setCreateInventoryName] = useState("");
+  const [createInventoryResponse, setCreateInventoryResponse] = useState("");
 
-  const [getInventoryId, setGetInventoryId] = useState('');
-  const [getInventoryResponse, setGetInventoryResponse] = useState('');
+  const [getInventoryId, setGetInventoryId] = useState("");
+  const [getInventoryResponse, setGetInventoryResponse] = useState("");
 
-  const [updateInventoryId, setUpdateInventoryId] = useState('');
-  const [updateInventoryName, setUpdateInventoryName] = useState('');
-  const [updateInventoryResponse, setUpdateInventoryResponse] = useState('');
+  const [updateInventoryId, setUpdateInventoryId] = useState("");
+  const [updateInventoryName, setUpdateInventoryName] = useState("");
+  const [updateInventoryResponse, setUpdateInventoryResponse] = useState("");
 
-  const [getInventoryItemsId, setGetInventoryItemsId] = useState('');
-  const [getInventoryItemsResponse, setGetInventoryItemsResponse] = useState('');
+  const [getInventoryItemsId, setGetInventoryItemsId] = useState("");
+  const [getInventoryItemsResponse, setGetInventoryItemsResponse] =
+    useState("");
 
   // Items
-  const [createItemName, setCreateItemName] = useState('');
-  const [createItemLocation, setCreateItemLocation] = useState('');
-  const [createItemInventoryId, setCreateItemInventoryId] = useState('');
+  const [createItemName, setCreateItemName] = useState("");
+  const [createItemLocation, setCreateItemLocation] = useState("");
+  const [createItemInventoryId, setCreateItemInventoryId] = useState("");
   const [createItemQuantity, setCreateItemQuantity] = useState(0);
   const [createItemPrice, setCreateItemPrice] = useState(0.0);
-  const [createItemResponse, setCreateItemResponse] = useState('');
+  const [createItemResponse, setCreateItemResponse] = useState("");
 
-  const [getItemId, setGetItemId] = useState('');
-  const [getItemResponse, setGetItemResponse] = useState('');
+  const [getItemId, setGetItemId] = useState("");
+  const [getItemResponse, setGetItemResponse] = useState("");
 
   // Reservations
-  const [reserveItemId, setReserveItemId] = useState('');
+  const [reserveItemId, setReserveItemId] = useState("");
   const [reserveQuantity, setReserveQuantity] = useState(0);
   const [reserveDuration, setReserveDuration] = useState(0);
-  const [reservationResponse, setReservationResponse] = useState('');
+  const [reservationResponse, setReservationResponse] = useState("");
 
-  const [reservationStatusId, setReservationStatusId] = useState('');
-  const [reservationStatusResponse, setReservationStatusResponse] = useState('');
+  const [reservationStatusId, setReservationStatusId] = useState("");
+  const [reservationStatusResponse, setReservationStatusResponse] =
+    useState("");
 
   // Users
-  const [createUsername, setCreateUsername] = useState('');
-  const [createUserResponse, setCreateUserResponse] = useState('');
+  const [createUsername, setCreateUsername] = useState("");
+  const [createUserResponse, setCreateUserResponse] = useState("");
 
-  const [getUserId, setGetUserId] = useState('');
-  const [getUserResponse, setGetUserResponse] = useState('');
+  const [getUserId, setGetUserId] = useState("");
+  const [getUserResponse, setGetUserResponse] = useState("");
 
   // INVENTORIES - Handlers
   const handleCreateInventory = async () => {
     try {
       const resp = await axios.post(`${baseUrl}/inventories/createInventory`, {
-        inventoryName: createInventoryName
+        inventoryName: createInventoryName,
       });
       setCreateInventoryResponse(resp.data);
     } catch (err) {
-      setCreateInventoryResponse(err.response ? err.response.data : err.toString());
+      setCreateInventoryResponse(
+        err.response ? err.response.data : err.toString()
+      );
     }
   };
 
   const handleGetInventoryName = async () => {
     try {
       const resp = await axios.get(`${baseUrl}/inventories/getInventoryName`, {
-        params: { inventoryId: getInventoryId }
+        params: { inventoryId: getInventoryId },
       });
       setGetInventoryResponse(resp.data);
     } catch (err) {
-      setGetInventoryResponse(err.response ? err.response.data : err.toString());
+      setGetInventoryResponse(
+        err.response ? err.response.data : err.toString()
+      );
     }
   };
 
   const handleUpdateInventoryName = async () => {
     try {
-      const resp = await axios.patch(`${baseUrl}/inventories/updateInventoryName`, null, {
-        params: {
-          inventoryId: updateInventoryId,
-          newInventoryName: updateInventoryName
+      const resp = await axios.patch(
+        `${baseUrl}/inventories/updateInventoryName`,
+        null,
+        {
+          params: {
+            inventoryId: updateInventoryId,
+            newInventoryName: updateInventoryName,
+          },
         }
-      });
+      );
       setUpdateInventoryResponse(resp.data);
     } catch (err) {
-      setUpdateInventoryResponse(err.response ? err.response.data : err.toString());
+      setUpdateInventoryResponse(
+        err.response ? err.response.data : err.toString()
+      );
     }
   };
 
   const handleGetInventoryItems = async () => {
     try {
-      const resp = await axios.get(`${baseUrl}/inventories/getInventoryItemNames`, {
-        params: { inventoryId: getInventoryItemsId }
-      });
+      const resp = await axios.get(
+        `${baseUrl}/inventories/getInventoryItemNames`,
+        {
+          params: { inventoryId: getInventoryItemsId },
+        }
+      );
       setGetInventoryItemsResponse(resp.data);
     } catch (err) {
-      setGetInventoryItemsResponse(err.response ? err.response.data : err.toString());
+      setGetInventoryItemsResponse(
+        err.response ? err.response.data : err.toString()
+      );
     }
   };
 
@@ -113,7 +130,7 @@ function App() {
         location: createItemLocation,
         inventoryId: createItemInventoryId,
         quantity: createItemQuantity,
-        price: createItemPrice
+        price: createItemPrice,
       });
       setCreateItemResponse(resp.data);
     } catch (err) {
@@ -124,7 +141,7 @@ function App() {
   const handleGetItemName = async () => {
     try {
       const resp = await axios.get(`${baseUrl}/items/getItemName`, {
-        params: { itemId: getItemId }
+        params: { itemId: getItemId },
       });
       setGetItemResponse(resp.data);
     } catch (err) {
@@ -139,8 +156,8 @@ function App() {
         params: {
           itemId: reserveItemId,
           quantity: reserveQuantity,
-          durationInMillis: reserveDuration
-        }
+          durationInMillis: reserveDuration,
+        },
       });
       setReservationResponse(resp.data);
     } catch (err) {
@@ -151,11 +168,13 @@ function App() {
   const handleGetReservationStatus = async () => {
     try {
       const resp = await axios.get(`${baseUrl}/reservations/status`, {
-        params: { itemId: reservationStatusId }
+        params: { itemId: reservationStatusId },
       });
       setReservationStatusResponse(resp.data);
     } catch (err) {
-      setReservationStatusResponse(err.response ? err.response.data : err.toString());
+      setReservationStatusResponse(
+        err.response ? err.response.data : err.toString()
+      );
     }
   };
 
@@ -163,7 +182,7 @@ function App() {
   const handleCreateUser = async () => {
     try {
       const resp = await axios.post(`${baseUrl}/users/createUser`, null, {
-        params: { username: createUsername }
+        params: { username: createUsername },
       });
       setCreateUserResponse(resp.data);
     } catch (err) {
@@ -174,7 +193,7 @@ function App() {
   const handleGetUsername = async () => {
     try {
       const resp = await axios.get(`${baseUrl}/users/getUsername`, {
-        params: { userId: getUserId }
+        params: { userId: getUserId },
       });
       setGetUserResponse(resp.data);
     } catch (err) {
@@ -183,10 +202,16 @@ function App() {
   };
 
   return (
-    <div style={{ margin: '20px' }}>
+    <div style={{ margin: "20px" }}>
       <h1>Homeless Shelter Item Management Client</h1>
 
-      <section style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+      <section
+        style={{
+          border: "1px solid #ccc",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
         <h2>Inventories</h2>
         <div>
           <h3>Create Inventory</h3>
@@ -243,7 +268,13 @@ function App() {
         </div>
       </section>
 
-      <section style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+      <section
+        style={{
+          border: "1px solid #ccc",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
         <h2>Items</h2>
         <div>
           <h3>Create Item</h3>
@@ -295,7 +326,13 @@ function App() {
         </div>
       </section>
 
-      <section style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+      <section
+        style={{
+          border: "1px solid #ccc",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
         <h2>Reservations</h2>
         <div>
           <h3>Create Reservation</h3>
@@ -334,7 +371,13 @@ function App() {
         </div>
       </section>
 
-      <section style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+      <section
+        style={{
+          border: "1px solid #ccc",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
         <h2>Users</h2>
         <div>
           <h3>Create User</h3>
