@@ -184,7 +184,7 @@ function App() {
 
   return (
     <div style={{ margin: '20px' }}>
-      <h1>Item Management UI</h1>
+      <h1>Homeless Shelter Item Management Client</h1>
 
       <section style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
         <h2>Inventories</h2>
