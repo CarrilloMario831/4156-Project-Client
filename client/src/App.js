@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function App() {
-  const baseUrl = "https://team-project-service-demo.ue.r.appspot.com/api";
+ // const baseUrl = "https://team-project-service-demo.ue.r.appspot.com/api";
+ const baseUrl = "//localhost:8080/api";
 
   const username = "admin1";
   const password = "admin123";
@@ -28,15 +29,14 @@ function App() {
   const [updateInventoryResponse, setUpdateInventoryResponse] = useState("");
 
   const [getInventoryItemsId, setGetInventoryItemsId] = useState("");
-  const [getInventoryItemsResponse, setGetInventoryItemsResponse] =
-    useState("");
+  const [getInventoryItemsResponse, setGetInventoryItemsResponse] = useState("");
 
   // Items
   const [createItemName, setCreateItemName] = useState("");
   const [createItemLocation, setCreateItemLocation] = useState("");
   const [createItemInventoryId, setCreateItemInventoryId] = useState("");
-  const [createItemQuantity, setCreateItemQuantity] = useState(0);
-  const [createItemPrice, setCreateItemPrice] = useState(0.0);
+  const [createItemQuantity, setCreateItemQuantity] = useState("");
+  const [createItemPrice, setCreateItemPrice] = useState("");
   const [createItemResponse, setCreateItemResponse] = useState("");
 
   const [getItemId, setGetItemId] = useState("");
@@ -44,20 +44,24 @@ function App() {
 
   // Reservations
   const [reserveItemId, setReserveItemId] = useState("");
-  const [reserveQuantity, setReserveQuantity] = useState(0);
-  const [reserveDuration, setReserveDuration] = useState(0);
+  const [reserveQuantity, setReserveQuantity] = useState("");
+  const [reserveDuration, setReserveDuration] = useState("");
   const [reservationResponse, setReservationResponse] = useState("");
 
   const [reservationStatusId, setReservationStatusId] = useState("");
-  const [reservationStatusResponse, setReservationStatusResponse] =
-    useState("");
+  const [reservationStatusResponse, setReservationStatusResponse] = useState("");
 
   // Users
   const [createUsername, setCreateUsername] = useState("");
+  const [createPassword, setCreatePassword] = useState("");
   const [createUserResponse, setCreateUserResponse] = useState("");
 
   const [getUserId, setGetUserId] = useState("");
   const [getUserResponse, setGetUserResponse] = useState("");
+
+  const [newRole, setNewRole] = useState("");
+  const [newUserId, setUserId] = useState("");
+  const [getRoleUserResponse, newRoleUserResponse] = useState("");
 
   // INVENTORIES - Handlers
   const handleCreateInventory = async () => {
@@ -182,7 +186,10 @@ function App() {
   const handleCreateUser = async () => {
     try {
       const resp = await axios.post(`${baseUrl}/users/createUser`, null, {
-        params: { username: createUsername },
+        params: { 
+          username: createUsername,
+          password: createPassword,
+        },
       });
       setCreateUserResponse(resp.data);
     } catch (err) {
@@ -198,6 +205,20 @@ function App() {
       setGetUserResponse(resp.data);
     } catch (err) {
       setGetUserResponse(err.response ? err.response.data : err.toString());
+    }
+  };
+
+  const handleNewRole = async () => {
+    try {
+      const resp = await axios.patch(`${baseUrl}/users/updateRole`, null, {
+        params: { 
+          userId: newUserId,
+          newRole: newRole,
+         },
+      });
+      newRoleUserResponse(resp.data);
+    } catch (err) {
+      newRoleUserResponse(err.response ? err.response.data : err.toString());
     }
   };
 
@@ -350,7 +371,7 @@ function App() {
           />
           <input
             type="number"
-            placeholder="Duration (ms)"
+            placeholder="Duration (Hours)"
             value={reserveDuration}
             onChange={(e) => setReserveDuration(Number(e.target.value))}
           />
@@ -387,6 +408,12 @@ function App() {
             value={createUsername}
             onChange={(e) => setCreateUsername(e.target.value)}
           />
+          <input
+            type="text"
+            placeholder="Password"
+            value={createPassword}
+            onChange={(e) => setCreatePassword(e.target.value)}
+          />
           <button onClick={handleCreateUser}>Create User</button>
           <pre>Response: {renderResponse(createUserResponse)}</pre>
         </div>
@@ -401,6 +428,24 @@ function App() {
           />
           <button onClick={handleGetUsername}>Get Username</button>
           <pre>Response: {renderResponse(getUserResponse)}</pre>
+        </div>
+
+        <div>
+          <h3>Update Role For User</h3>
+          <input
+            type="text"
+            placeholder="User ID"
+            value={newUserId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="New Role"
+            value={newRole}
+            onChange={(e) => setNewRole(e.target.value)}
+          />
+          <button onClick={handleNewRole}>Update Role</button>
+          <pre>Response: {renderResponse(getRoleUserResponse)}</pre>
         </div>
       </section>
     </div>
